@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var todos: [TodoModel] = [TodoModel(title: "Test Todo")]
+    var todos: [TodoModel] = []
     
     
     override func viewDidLoad() {
@@ -41,11 +41,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func didTapButton() {
         let alert = UIAlertController(title: "Create Todo", message: "Enter your todo", preferredStyle: .alert)
         alert.addTextField()
-        alert.addTextField()
         let saveButton = UIAlertAction(title: "Create", style: .default) { _ in
             guard let textTitle = alert.textFields?[0].text else { return }
-            guard let textDescription = alert.textFields?[1].text else { return }
-            self.addItem(textTitle, textDescription)
+            self.addItem(textTitle)
         }
         alert.addAction(saveButton)
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
@@ -53,7 +51,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         present(alert, animated: true)
     }
     
-    func addItem(_ title: String, _ description: String) {
+    func addItem(_ title: String) {
         self.todos.append(TodoModel(title: title, description: description))
         self.tableView.reloadData()
     }
@@ -102,6 +100,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.textLabel?.text = self.todos[indexPath.row].title
         if self.todos[indexPath.row].isCompleted {
             cell.accessoryType = .checkmark
+            cell.backgroundColor = .systemGreen
         }
         return cell
     }
